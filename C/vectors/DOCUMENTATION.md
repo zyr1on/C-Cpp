@@ -96,6 +96,15 @@ OUTPUT:
 Maximum value in vector is:    13      
 Average of vector elements is: 5.250000
 ```
+6. Time
+```c
+vector_push_back(&vec,element)
+Time taken to add 1 element: 0.001000 milliseconds
+Time taken to add 1000 elements: 0.023000 milliseconds
+Time taken to add 100,000 elements: 3.336000 milliseconds
+Time taken to add 1 million elements: 21.871000 milliseconds
+
+```
 </details>
 <details>
 <summary style="font-size: 18px;">ORDERED_VECTOR.H</summary>
