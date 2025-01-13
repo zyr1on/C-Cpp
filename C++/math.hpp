@@ -29,17 +29,20 @@ namespace Math
         Vector2 operator-(const Vector2& other) {
             return { this->x - other.x , this->y - other.y };
         }
-        void operator=(const Vector2& other) {
-            this->x = other.x;
-            this->y = other.y;
+        Vector2& operator=(const Vector2& other) {
+            if(this != &other) 
+            {
+                this->x = x;
+                this->y = y;
+            }
+            return *this;
         }
         bool operator==(const Vector2& other) {
-            if(this->x == other.x && this->y == other.y)return true;
-            return false;
+            return (this->x == other.x && this->y == other.y);
         }
         bool operator!=(const Vector2& other) {
-            if(this->x == other.x && this->y == other.y)return false;
-            return true;
+            return !(this->x == other.x && this->y == other.y);
+            
         }
         friend std::ostream& operator<<(std::ostream& os, const Vector2& other) {
             os << "("<<other.x<<","<<other.y<<")";  
@@ -67,22 +70,22 @@ namespace Math
         {
             return { this->x - other.x , this->y - other.y,this->z - other.y };
         }
-        void operator=(const Vector3& other) 
+        Vector3& operator=(const Vector3& other) 
         {
-            this->x = other.x;
-            this->y = other.y;
-            this->z = other.z;
+            if(this != &other) {
+                this->x = other.x;
+                this->y = other.y;
+                this->z = other.z;
+            }
         }
         
         bool operator==(const Vector3& other) 
         {
-            if(this->x == other.x && this->y == other.y && this->z == other.z)return true;
-            return false;
+            return (this->x == other.x && this->y == other.y && this->z == other.z);
         }
         bool operator!=(const Vector3& other) 
         {
-            if(this->x == other.x && this->y == other.y && this->z == other.z)return false;
-            return true;
+            return !(this->x == other.x && this->y == other.y && this->z == other.z);
         }
         friend std::ostream& operator<<(std::ostream& os, const Vector3& other) 
         {
