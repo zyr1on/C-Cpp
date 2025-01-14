@@ -42,17 +42,32 @@ int vector_init(vector*v) {
     return 0;  
 }
 
-int vector_push_back(vector*v, int element) {
-    if(!validate_vector(v,"vector_push_back: Vector is NULL or not initialized\n")) return -1;
-    if(v->size == v->capacity) {
-        v->capacity *=2;
-        int* temp = (int*)malloc(sizeof(int) * v->capacity);
-        if(temp == NULL) {
+// int vector_push_back(vector*v, int element) {
+//     if(!validate_vector(v,"vector_push_back: Vector is NULL or not initialized\n")) return -1;
+//     if(v->size == v->capacity) {
+//         v->capacity *=2;
+//         int* temp = (int*)malloc(sizeof(int) * v->capacity);
+//         if(temp == NULL) {
+//             perror("vector_push_back: Temporary Memory allocation error");
+//             return -1;
+//         }
+//         memcpy(temp,v->data,sizeof(int)*v->size);
+//         free(v->data);
+//         v->data = temp;
+//     }
+//     v->data[v->size++] = element;
+//     return 0;
+// }
+
+int vector_push_back(vector* v, int element) {
+    if (!validate_vector(v, "vector_push_back: Vector is NULL or not initialized\n")) return -1;
+    if (v->size == v->capacity) {
+        v->capacity *= 2; // Kapasiteyi iki katına çıkarıyoruz
+        int* temp = (int*)realloc(v->data, sizeof(int) * v->capacity);
+        if (temp == NULL) {
             perror("vector_push_back: Temporary Memory allocation error");
             return -1;
         }
-        memcpy(temp,v->data,sizeof(int)*v->size);
-        free(v->data);
         v->data = temp;
     }
     v->data[v->size++] = element;
