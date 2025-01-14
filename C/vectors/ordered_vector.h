@@ -1,5 +1,5 @@
 /*
-	AUTHOR: Semih "zyr1on" Özdemir
+	AUTHOR: Semih "zyron" Özdemir
  	ordered dynamic array implementation of C
 */
 #include <stdio.h>
