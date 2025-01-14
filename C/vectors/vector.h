@@ -44,7 +44,7 @@ int vector_init(vector*v) {
 
 int vector_push_back(vector*v, int element) {
     if(!validate_vector(v,"vector_push_back: Vector is NULL or not initialized\n")) return -1;
-    if(v->size >= v->capacity) {
+    if(v->size == v->capacity) {
         v->capacity *=2;
         int* temp = (int*)malloc(sizeof(int) * v->capacity);
         if(temp == NULL) {
