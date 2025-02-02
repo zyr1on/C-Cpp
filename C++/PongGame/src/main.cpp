@@ -1,4 +1,3 @@
-#pragme once
 #include <raylib.h>
 #include"gameobject.h"
 
@@ -11,21 +10,17 @@ int main()
     SetTargetFPS(60);
 
     Ball ball(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 300.0f, 300.0f, 5.0f);
-
     Paddle leftPaddle(50,SCREEN_HEIGHT / 2,550, 10,100);
     Paddle rightPaddle(SCREEN_WIDTH - 50,SCREEN_HEIGHT / 2,550, 10,100);
-    
     const char* winnerText = nullptr;
-
+	
     while(!WindowShouldClose()) 
     {
-
         ball.x += ball.speedX * GetFrameTime();
         ball.y += ball.speedY * GetFrameTime();
         
         if(ball.y + ball.radius >= SCREEN_HEIGHT || (ball.y - ball.radius) <= 0)
             ball.speedY *= -1;
-        
         if(IsKeyDown(KEY_W))
             leftPaddle.y -= leftPaddle.speed * GetFrameTime();
         if(IsKeyDown(KEY_S))
