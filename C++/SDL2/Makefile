@@ -14,4 +14,4 @@ $(EXEC): $(OBJ)
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(EXEC)
+	del $(OBJ) $(EXEC)
