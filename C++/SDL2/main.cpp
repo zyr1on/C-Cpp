@@ -1,7 +1,5 @@
-#include<iostream>
 #include<SDL2/SDL.h>
 #include"algorithms.h"
-
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -15,7 +13,6 @@ int main(int argc, char** argv)
     renderer = SDL_CreateRenderer(window, 0, -1);
     isRunning = true;
 
-
     int centerX = 400;
     int centerY = 300;
     int radius = 10;
@@ -24,24 +21,20 @@ int main(int argc, char** argv)
 
     constexpr auto drawCircle = algorithm::drawFilledCircleBresenham;
 
-
     while (isRunning)
     {
         centerX += circleSpeedX;
         centerY += circleSpeedY;
 
         while (SDL_PollEvent(&event))
-        {
             if (event.type == SDL_QUIT)
                 isRunning = false;
-        }
 
         if(centerY + radius >= 600 || centerY - radius <= 0)
             circleSpeedY *= -1;
         if(centerX + radius >= 800 || centerX - radius <= 0)
             circleSpeedX *= -1;
        
-
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         
@@ -49,7 +42,6 @@ int main(int argc, char** argv)
             drawCircle(renderer,centerX,centerY,radius);
 
         SDL_RenderPresent(renderer); 
-        
     }
 
     SDL_DestroyRenderer(renderer);
