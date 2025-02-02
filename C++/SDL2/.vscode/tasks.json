@@ -1,0 +1,36 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "g++.exe",
+            "args": [
+                ".\\main.cpp",
+                "-I", ".\\src\\include\\",
+                "-L", ".\\src\\lib\\",
+                "-lmingw32",
+                "-lSDL2main",
+                "-lSDL2",
+                "-o", "main.exe"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Derleme işlemi"
+        },
+        {
+            "label": "clean",
+            "type": "shell",
+            "command": "del",
+            "args": [
+                "main.exe"
+            ],
+            "group": "none",
+            "problemMatcher": [],
+            "detail": "Temizleme işlemi"
+        }
+    ]
+}
