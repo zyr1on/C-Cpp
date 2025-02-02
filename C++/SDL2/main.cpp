@@ -1,5 +1,5 @@
 #include<SDL2/SDL.h>
-#include"algorithms.h"
+#include"objects.h"
 
 SDL_Window* window;
 SDL_Renderer* renderer;
@@ -15,46 +15,44 @@ int main(int argc, char** argv)
     renderer = SDL_CreateRenderer(window, 0, -1);
     isRunning = true;
 
-    int centerX = 400;
-    int centerY = 300;
-    int radius = 10;
+    Circle<FILLED> ball(400,300,10);
     int circleSpeedX = 5;
     int circleSpeedY = 5;
 
-    constexpr auto drawCircle = algorithm::drawFilledCircleBresenham; // void (*drawCircle)(SDL_Renderer*, int, int, int) = &algorithm::drawFilledCircleBresenham
     Uint32 frameStart, frameTime;
 
     while (isRunning)
     {
         frameStart = SDL_GetTicks();
 
-        centerX += circleSpeedX;
-        centerY += circleSpeedY;
+        ball.x += circleSpeedX;
+        ball.y += circleSpeedY;
 
         while (SDL_PollEvent(&event))
             if (event.type == SDL_QUIT)
                 isRunning = false;
-		
-        if(centerY + radius >= 600 || centerY - radius <= 0)
+
+        if(ball.y + ball.radius >= 600 || ball.y - ball.radius <= 0)
             circleSpeedY *= -1;
-        if(centerX + radius >= 800 || centerX - radius <= 0)
+        if(ball.x + ball.radius >= 800 || ball.x - ball.radius <= 0)
             circleSpeedX *= -1;
        
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
         
         SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
-            drawCircle(renderer,centerX,centerY,radius);
-
+            ball.draw(renderer);
         SDL_RenderPresent(renderer);
 
         frameTime = SDL_GetTicks() - frameStart;
+
         if(frameDelay > frameTime)
-            SDL_Delay(frameDelay - frameTime);
+            SDL_Delay(frameDelay - frameTime); 
     }
 
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
+
     return 0;
 }
