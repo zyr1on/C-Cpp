@@ -16,6 +16,7 @@ int main(int argc, char** argv)
     isRunning = true;
 
     Circle<FILLED> ball(400,300,10);
+    // Circle<FILLED/UNFILLED> ball(xPos,yPos,radius);
     int circleSpeedX = 5;
     int circleSpeedY = 5;
 
