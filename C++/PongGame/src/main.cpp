@@ -1,53 +1,19 @@
+#pragme once
 #include <raylib.h>
+#include"gameobject.h"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
-
-struct Ball
-{
-    float x,y;
-    float speedX,speedY;
-    float radius;
-    void Draw() 
-    {
-        DrawCircle((int)x,(int)y,radius,WHITE);
-    }
-};
-
-
-struct Paddle{
-    float x,y;
-    float speed;
-    float width,height;
-    Rectangle GetRect() {
-        return Rectangle {x-width / 2, y-width / 2, 10, 100};
-    }
-    void Draw()
-    {
-        DrawRectangleRec(GetRect(),WHITE);
-    }
-};
 
 int main() 
 {
     InitWindow(SCREEN_WIDTH,SCREEN_HEIGHT,"hello");
     SetTargetFPS(60);
 
-    Ball ball;
-    ball.x = SCREEN_WIDTH / 2.0f;
-    ball.y = SCREEN_HEIGHT / 2.0f;
-    ball.radius = 5;
-    ball.speedX = 300;
-    ball.speedY = 300;
+    Ball ball(SCREEN_WIDTH / 2.0f, SCREEN_HEIGHT / 2.0f, 300.0f, 300.0f, 5.0f);
 
-    Paddle leftPaddle;
-    Paddle rightPaddle;
-    leftPaddle.x = 50;
-    rightPaddle.x = SCREEN_WIDTH - 50;
-    leftPaddle.y = rightPaddle.y =  SCREEN_HEIGHT / 2;
-    leftPaddle.width = rightPaddle.width = 10;
-    leftPaddle.height = rightPaddle.height = 100;
-    leftPaddle.speed = rightPaddle.speed = 550;
+    Paddle leftPaddle(50,SCREEN_HEIGHT / 2,550, 10,100);
+    Paddle rightPaddle(SCREEN_WIDTH - 50,SCREEN_HEIGHT / 2,550, 10,100);
     
     const char* winnerText = nullptr;
 
@@ -81,7 +47,7 @@ int main()
                     ball.speedX *= -1.05f;
                     ball.speedY = (ball.y - rightPaddle.y) / (rightPaddle.height / 2) * -ball.speedX;
                 }
-
+		
         if(ball.x < 0)
             winnerText = "Right is winner";
         if(ball.x > SCREEN_WIDTH)
