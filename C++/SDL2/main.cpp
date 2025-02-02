@@ -15,8 +15,8 @@ int main(int argc, char** argv)
     renderer = SDL_CreateRenderer(window, 0, -1);
     isRunning = true;
 
-    Circle<FILLED> ball(400,300,10);
     // Circle<FILLED/UNFILLED> ball(xPos,yPos,radius);
+    Circle<FILLED> ball(400,300,10);
     int circleSpeedX = 5;
     int circleSpeedY = 5;
 
