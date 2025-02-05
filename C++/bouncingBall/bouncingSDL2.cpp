@@ -19,7 +19,6 @@ int main(int argc, char** argv)
     int xPos = 400;
     int yPos = 300;
     int radius = 20;
-    
     int ballSpeedX = -3;
     int ballSpeedY = -3;
 
@@ -27,7 +26,7 @@ int main(int argc, char** argv)
     {
         xPos += ballSpeedX;
         yPos += ballSpeedY;
-
+        
         while (SDL_PollEvent(&event))
             if (event.type == SDL_QUIT)
                 isRunning = false;
@@ -36,7 +35,6 @@ int main(int argc, char** argv)
             ballSpeedY *= -1;
         if(xPos + radius >= 800 || xPos - radius <= 0)
             ballSpeedX *= -1;
-
 
         SDL_SetRenderDrawColor(renderer, 51, 77, 77, 255);
         SDL_RenderClear(renderer);
@@ -53,7 +51,6 @@ int main(int argc, char** argv)
 
     return 0;
 }
-
 
 void drawCircle(SDL_Renderer* renderer, int centerX, int centerY, int radius)
 {
