@@ -21,8 +21,10 @@ bool checkCollision(Circle<T>& c, SDL_Rect& rect)
     if(c.y < rect.y) closestY = rect.y;
     else if(c.y > rect.y + rect.h) closestY = rect.y + rect.h;
     else closestY = c.y;
+    
     float dx = closestX - c.x;
     float dy = closestY - c.y;
+    
     return (dx*dx + dy*dy) <= (c.radius*c.radius);
 }
 
