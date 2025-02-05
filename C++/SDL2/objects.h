@@ -4,11 +4,13 @@ enum ObjectType{
     FILLED,
     OUTLINE
 };
+
 template<ObjectType type>
 class Circle {
 public:
     int x,y,radius;
     Circle(int x, int y, int r) : x(x), y(y), radius(r) {    }
+    Circle() : x(0),y(0),radius(0) { }
     void render(SDL_Renderer* ren) 
     {
         drawCircle(ren, x,y,radius);
@@ -17,11 +19,21 @@ private:
     constexpr static auto drawCircle = (type == FILLED) ? 
         &algorithm::drawFilledCircleBresenham : &algorithm::drawCircleBresenham;
 };
+
+
 template<ObjectType type>
 class Rectangle {
 public:
     SDL_Rect rect;
     Rectangle(int x, int y, int w, int h) : rect{x, y, w, h} {
+        if (type == FILLED) {
+            renderType = &Rectangle::fillRender;
+        }
+        else {
+            renderType = &Rectangle::outlineRender;
+        }
+    }
+    Rectangle() : rect{0, 0, 0, 0} {
         if (type == FILLED) {
             renderType = &Rectangle::fillRender;
         }
@@ -42,33 +54,7 @@ private:
     }
 };
 
-bool CheckCollisionCircleRect(Circle<FILLED>& c, SDL_Rect& rect) 
-{
-    float closestX, closestY;
-    if(c.x < rect.x) {
-        closestX = rect.x;
-    }
-    else if(c.x > rect.x + rect.w){
-        closestX = rect.x + rect.w;
-    }
-    else {
-        closestX = c.x;
-    }
-    if(c.y < rect.y) {
-        closestY = rect.y;
-    }
-    else if(c.y > rect.y + rect.h){
-        closestY = rect.y + rect.h;
-    }
-    else {
-        closestY = c.y;
-    }
-    float dx = closestX - c.x;
-    float dy = closestY - c.y;
-    return (dx*dx + dy*dy) <= (c.radius*c.radius);
-}
-
-bool CirclePaddleCollisionLeft(Circle<FILLED>&c, SDL_Rect& rect, int& circleSpeedX,  int& circleSpeedY) 
+void CirclePaddleCollisionLeft(Circle<FILLED>&c, SDL_Rect& rect, int& circleSpeedX,  int& circleSpeedY) 
 {
     if (c.x - c.radius + circleSpeedX <= rect.x + rect.w &&
             c.y >= rect.y && c.y <= rect.y + rect.h &&
@@ -77,16 +63,16 @@ bool CirclePaddleCollisionLeft(Circle<FILLED>&c, SDL_Rect& rect, int& circleSpee
             c.x = rect.x + rect.w + c.radius; // Paddle'ın dışına it
             circleSpeedX *= -1;
     }
-
 }
-bool CirclePaddleCollisionRight(Circle<FILLED>&c, SDL_Rect& rect, int& circleSpeedX,  int& circleSpeedY) 
+
+void CirclePaddleCollisionRight(Circle<FILLED>&c, SDL_Rect& rect, int& circleSpeedX,  int& circleSpeedY) 
 {
    if (c.x + c.radius + circleSpeedX >= rect.x &&
             c.y >= rect.y && c.y <= rect.y + rect.h &&
             circleSpeedX > 0) {
             
             c.x = rect.x - c.radius; // Paddle'ın dışına it
-            circleSpeedX *= -1;
+            circleSpeedX *= -1;   
     }
-
 }
+
