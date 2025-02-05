@@ -48,7 +48,7 @@ int main() {
     int numSegments = 100; 
     std::vector<float> vertices;
 
-    float radius = 0.05f;
+    float radius = 0.07f;
     for (int i = 0; i < numSegments; ++i) {
         float angle = 2.0f * 3.14159265358979f * float(i) / float(numSegments);
         float x = radius * cos(angle);
@@ -62,12 +62,9 @@ int main() {
     vertices.push_back(0.0f);
     vertices.push_back(0.0f);
 
-
-
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
     glCompileShader(vertexShader);
-
 
     unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
     glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
@@ -87,7 +84,6 @@ int main() {
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindVertexArray(0);
 
-    
     unsigned int shaderProgram = glCreateProgram();
     glAttachShader(shaderProgram, vertexShader);
     glAttachShader(shaderProgram, fragmentShader);
@@ -95,17 +91,15 @@ int main() {
     
     glUseProgram(shaderProgram);
 
-    
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
 
-   
     unsigned int modelLoc = glGetUniformLocation(shaderProgram, "model");
 
-    float xPos = 0.0f;
-    float yPos = 0.5f; 
-    float speedX = -0.005f;
-    float speedY = 0.005f;
+    float xPos = 0.1f;
+    float yPos = 0.1f; 
+    float speedX = -0.01f;
+    float speedY = 0.01f;
 
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window)) {
@@ -116,13 +110,12 @@ int main() {
 
         xPos += speedX;
         yPos += speedY;
-        if (xPos > 1.0f || xPos < -1.0f)
+        if (xPos + radius > 1.0f || xPos - radius < -1.0f)
             speedX *= -1.0f; 
-        if (yPos > 1.0f || yPos < -1.0f)
+        if (yPos + radius > 1.0f || yPos - radius < -1.0f)
             speedY *= -1.0f; 
 
         model = glm::translate(model, glm::vec3(xPos, yPos, 0.0f));
-
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
 
         glUseProgram(shaderProgram);
