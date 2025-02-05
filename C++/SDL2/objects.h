@@ -1,5 +1,5 @@
-#include"algorithms.h"
 #pragma once
+#include"algorithms.h"
 enum ObjectType{
     FILLED,
     OUTLINE
@@ -19,7 +19,6 @@ private:
     constexpr static auto drawCircle = (type == FILLED) ? 
         &algorithm::drawFilledCircleBresenham : &algorithm::drawCircleBresenham;
 };
-
 
 template<ObjectType type>
 class Rectangle {
@@ -75,4 +74,3 @@ void CirclePaddleCollisionRight(Circle<FILLED>&c, SDL_Rect& rect, int& circleSpe
             circleSpeedX *= -1;   
     }
 }
-
