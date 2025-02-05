@@ -2,7 +2,6 @@
 #include<SDL2/SDL.h>
 #include"objects.h"
 
-
 bool checkCollision(SDL_Rect& a, SDL_Rect& b) 
 {
     return (a.x + a.w > b.x) &&
