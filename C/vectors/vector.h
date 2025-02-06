@@ -231,3 +231,11 @@ void vector_fill(vector* v, int fill_val) {
     if(!validate_vector(v,"vector_fill: Vector is empty or NULL | maybe not initialized\n")) return; 
     memset(v->data,fill_val,sizeof(int)*v->size);
 }
+
+vector vector_trim(vector* v, int _startIndex, int _endIndex) {
+    vector temp;
+    vector_init(&temp); 
+    temp.size = _endIndex - _startIndex;
+    memcpy(temp.data,v->data + _startIndex, sizeof(int) * temp.size);
+    return temp;    
+}
