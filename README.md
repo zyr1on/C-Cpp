@@ -1,4 +1,4 @@
-# C-Cpp Projects on my 'c' journey
+# C-Cpp Projects
 C/C++ Projects
 
 P.S:<br>
