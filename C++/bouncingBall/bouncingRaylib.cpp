@@ -26,7 +26,7 @@ struct Circle
 int main() 
 {
     SetConfigFlags(FLAG_VSYNC_HINT);
-    InitWindow(SCREEN_WIDTH,SCREEN_HEIGHT,"hello");
+    InitWindow(SCREEN_WIDTH,SCREEN_HEIGHT,"Bounce with Raylib");
     
     Circle ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, -3, -3, 25,RED);
     
