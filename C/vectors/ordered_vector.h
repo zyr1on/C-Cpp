@@ -7,10 +7,10 @@
 #include<string.h>
 #define INITIAL_CAP 5
 typedef struct {
-    int* m_data;
-    size_t m_size;
-    size_t m_capacity;
-    int m_initialized;
+    int* m_data;              // m_data is a pointer that stores the vector's elements (of type int)
+    size_t m_size;           // m_size stores the current number of elements in the vector
+    size_t m_capacity;      // m_capacity stores the total capacity of the vector (the allocated memory size)
+    int m_initialized;     // m_initialized is a flag that indicates whether the vector has been properly initialized
 } ovector;
 
 int ordered_validate_vector(ovector* v, char* _errStr) {
@@ -97,18 +97,18 @@ int ovector_insert(ovector* v, int element) {
     return 0;
 }
 
-int ovector_delete(ovector*v , int element) 
-{
+int ovector_delete(ovector* v, int element) {
+    // Validate the vector: check if it's NULL, empty, or not initialized
     if(!ordered_validate_vector(v,"ovector_delete: Vector is NULL or not m_initialized\n")) return -1;
-    int index = ovector_IndexAt(v,element,0);
-    if(index == -1) 
-    {
+
+    int index = ovector_IndexAt(v, element, 0);
+    if (index == -1) {
         fprintf(stderr, "ovector_delete: Element not found\n");
         return -1;
     }
-    if(index == v->m_size -1) 
-    {
-        v->m_size--;
+
+    if (index == v->m_size - 1) {
+        v->m_size--; 
         return 0;
     }
     memmove(v->m_data + index, v->m_data + index + 1, sizeof(int) * (v->m_size - index - 1));
