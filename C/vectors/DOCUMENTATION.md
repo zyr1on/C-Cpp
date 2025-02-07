@@ -123,32 +123,32 @@ Time taken to add 1 million elements: 21.871000 milliseconds
 #include"ordered_vector.h"
 int main()
 {
-    ordered_vector o_vec;
-    ordered_vector_init(&o_vec);
+    ovector o_vec;
+    ovector(&o_vec);
 }
 ```
 3. Introduction to Vector and Vector functions.
 ```c
 #define INITIAL_CAP 5                                          -> default initial capacity of vector.
-void ordered_vector_init(vector*v)                             -> *initializes vector.
-int  ordered_vector_insert(vector*v, int element)              -> inserts an element into an ordered vector while maintaining the order. (0 succes -1 fail)
-int  ordered_vector_delete(vector* v,int element)              -> deletes an element from vector that passed to function.(0 succes -1 fail)
-int  ordered_vector_pop(vector* v)                             -> pops vector element (assume last element deleted)
-int  ordered_vector_last(vector* v)                            -> returns vector's last element.
-int  ordered_vector_size(vector *v)                            -> returns size of vector.
-void ordered_vector_print(vector*v)                            -> prints vector like python lists.
-void ordered_vector_fill(vector* v,int fill_val)               -> fills all vectors elements to fill_val parameter.
-int  ordered_vector_destroy(vector*v)                          -> *terminates vector and frees memory block. (0 succes -1 fail)
+void ovector_init(vector*v)                             -> *initializes vector.
+int  ovector_insert(vector*v, int element)              -> inserts an element into an ordered vector while maintaining the order. (0 succes -1 fail)
+int  ovector_delete(vector* v,int element)              -> deletes an element from vector that passed to function.(0 succes -1 fail)
+int  ovector_pop(vector* v)                             -> pops vector element (assume last element deleted)
+int  ovector_last(vector* v)                            -> returns vector's last element.
+int  ovector_size(vector *v)                            -> returns size of vector.
+void ovector_print(vector*v)                            -> prints vector like python lists.
+void ovector_fill(vector* v,int fill_val)               -> fills all vectors elements to fill_val parameter.
+int  ovector_destroy(vector*v)                          -> *terminates vector and frees memory block. (0 succes -1 fail)
 ```
 4. Basic instructions to start and use vector.
 ```c
 #include"ordered_vector.h"
 int main()
 {
-    ordered_vector o_vec;
-    ordered_vector_init(&o_vec);
+    ovector o_vec;
+    ovector_init(&o_vec);
     ...
-    ordered_vector_destroy(&o_vec);
+    ovector_destroy(&o_vec);
 }
 ```
 5.Example usage:
@@ -156,15 +156,15 @@ int main()
 #include"ordered_vector.h"
 int main()
 {
-    ordered_vector o_vec;
-    ordered_vector_init(&o_vec);
-    ordered_vector_insert(&o_vec,25);
-    ordered_vector_insert(&o_vec,7);
-    ordered_vector_insert(&o_vec,24);
-    ordered_vector_print(&o_vec);
+    ovector o_vec;
+    ovector_init(&o_vec);
+    ovector_insert(&o_vec,25);
+    ovector_insert(&o_vec,7);
+    ovector_insert(&o_vec,24);
+    ovector_print(&o_vec);
     printf("24 index at: %d\n",ordered_vector_IndexAt(&o_vec,24));
-    ordered_vector_delete(&o_vec,7);
-    ordered_vector_print(&o_vec);
+    ovector_delete(&o_vec,7);
+    ovector_print(&o_vec);
     
     ordered_vector_destroy(&o_vec);
     return 0;
