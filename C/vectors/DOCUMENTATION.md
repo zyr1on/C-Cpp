@@ -130,15 +130,15 @@ int main()
 3. Introduction to Vector and Vector functions.
 ```c
 #define INITIAL_CAP 5                                          -> default initial capacity of vector.
-void ovector_init(vector*v)                             -> *initializes vector.
-int  ovector_insert(vector*v, int element)              -> inserts an element into an ordered vector while maintaining the order. (0 succes -1 fail)
-int  ovector_delete(vector* v,int element)              -> deletes an element from vector that passed to function.(0 succes -1 fail)
-int  ovector_pop(vector* v)                             -> pops vector element (assume last element deleted)
-int  ovector_last(vector* v)                            -> returns vector's last element.
-int  ovector_size(vector *v)                            -> returns size of vector.
-void ovector_print(vector*v)                            -> prints vector like python lists.
-void ovector_fill(vector* v,int fill_val)               -> fills all vectors elements to fill_val parameter.
-int  ovector_destroy(vector*v)                          -> *terminates vector and frees memory block. (0 succes -1 fail)
+void ovector_init(ovector*v)                             -> *initializes vector.
+int  ovector_insert(ovector*v, int element)              -> inserts an element into an ordered vector while maintaining the order. (0 succes -1 fail)
+int  ovector_delete(ovector* v,int element)              -> deletes an element from vector that passed to function.(0 succes -1 fail)
+int  ovector_pop(ovector* v)                             -> pops vector element (assume last element deleted)
+int  ovector_last(ovector* v)                            -> returns vector's last element.
+int  ovector_size(ovector *v)                            -> returns size of vector.
+void ovector_print(ovector*v)                            -> prints vector like python lists.
+void ovector_fill(ovector* v,int fill_val)               -> fills all vectors elements to fill_val parameter.
+int  ovector_destroy(ovector*v)                          -> *terminates vector and frees memory block. (0 succes -1 fail)
 ```
 4. Basic instructions to start and use vector.
 ```c
