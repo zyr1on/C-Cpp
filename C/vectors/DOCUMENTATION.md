@@ -177,7 +177,8 @@ OUTPUT:
 </details>
 
 <br>
-<h1> Standart Template</h1>
+STANDART TEMPLATE
+
 ```c
 #include "vector.h"
 int main() {
