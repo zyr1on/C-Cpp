@@ -177,7 +177,7 @@ OUTPUT:
 </details>
 
 <br>
-STANDART TEMPLATE
+<h1>STANDART TEMPLATE</h1>
 
 ```c
 #include "vector.h"
