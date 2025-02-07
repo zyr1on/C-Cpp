@@ -9,10 +9,10 @@
 
 #define INITIAL_CAP 5
 typedef struct {
-    int* m_data;
-    size_t m_size;
-    size_t m_capacity;
-    int m_initialized;
+    int* m_data;              // m_data is a pointer that stores the vector's elements (of type int)
+    size_t m_size;           // m_size stores the current number of elements in the vector
+    size_t m_capacity;      // m_capacity stores the total capacity of the vector (the allocated memory size)
+    int m_initialized;     // m_initialized is a flag that indicates whether the vector has been properly initialized
 } vector;
 
 int compare(const void* a, const void* b) {
@@ -26,6 +26,7 @@ int validate_vector(vector* v, char* _errStr) {
     return 1;
 }
 
+// initialize vector at the start
 int vector_init(vector*v) {
     if(v->m_initialized == -1) {
         fprintf(stderr, "vector_init: Vector is already initialized\n");
@@ -42,23 +43,7 @@ int vector_init(vector*v) {
     return 0;  
 }
 
-// int vector_push_back(vector*v, int element) {
-//     if(!validate_vector(v,"vector_push_back: Vector is NULL or not initialized\n")) return -1;
-//     if(v->m_size == v->m_capacity) {
-//         v->m_capacity *=2;
-//         int* temp = (int*)malloc(sizeof(int) * v->m_capacity);
-//         if(temp == NULL) {
-//             perror("vector_push_back: Temporary Memory allocation error");
-//             return -1;
-//         }
-//         memcpy(temp,v->m_data,sizeof(int)*v->m_size);
-//         free(v->m_data);
-//         v->m_data = temp;
-//     }
-//     v->m_data[v->m_size++] = element;
-//     return 0;
-// }
-
+// changed malloc to realloc
 int vector_push_back(vector* v, int element) {
     if (!validate_vector(v, "vector_push_back: Vector is NULL or not initialized\n")) return -1;
     if (v->m_size == v->m_capacity) {
@@ -74,25 +59,30 @@ int vector_push_back(vector* v, int element) {
     return 0;
 }
 
-int vector_push_front(vector* v,int element) {
-    if(!validate_vector(v,"vector_push_front: Vector is NULL or not initialized\n")) return -1;    
-    if(v->m_size >= v->m_capacity) {
-        v->m_capacity *=2;
-        int* temp = (int*)malloc(sizeof(int) * v->m_capacity);
-        if(temp == NULL) {
-            perror("vector_push_back: Temporary Memory allocation error");
+// changed malloc to realloc
+int vector_push_front(vector* v, int element) {
+    if (!validate_vector(v, "vector_push_front: Vector is NULL or not initialized\n")) 
+        return -1;
+
+    if (v->m_size >= v->m_capacity) {
+        int new_capacity = v->m_capacity ? v->m_capacity * 2 : 1;
+        int* temp = (int*)realloc(v->m_data, sizeof(int) * new_capacity);
+        if (temp == NULL) {
+            perror("vector_push_front: Memory allocation error");
             return -1;
         }
-        memmove(temp+1,v->m_data,sizeof(int)*v->m_size);
-        free(v->m_data);
         v->m_data = temp;
+        v->m_capacity = new_capacity;
     }
-    else 
-        memmove(v->m_data + 1,v->m_data,sizeof(int) * (v->m_size));
+
+    memmove(v->m_data + 1, v->m_data, sizeof(int) * v->m_size);
+
     v->m_data[0] = element;
     v->m_size++;
+    
     return 0;
 }
+
 
 int vector_IndexAt(vector* v, int element)  {
     if(!validate_vector(v,"vector_IndexAt: Vector is empty or NULL | maybe not initialized\n")) return -1;  
@@ -102,24 +92,18 @@ int vector_IndexAt(vector* v, int element)  {
 }
 
 int vector_delete(vector* v, int element) {
-    if (v->m_data == NULL || v->m_size == 0 || v->m_initialized != 1) {
-        fprintf(stderr, "vector_delete: Vector is empty or NULL | maybe not initialized\n");
-        return -1;
-    }
     if(!validate_vector(v,"vector_delete: Vector is empty or NULL | maybe not initialized\n")) return -1;  
-    int index = vector_IndexAt(v,element);
-    if(index == -1)
-    {
-        fprintf(stderr,"vector_delete: Element not found\n");
+    int index = vector_IndexAt(v, element);
+    if (index == -1) {
+        fprintf(stderr, "vector_delete: Element not found\n");
         return -1;
     }
-    if(index == v->m_size -1) 
-    {
+    if (index == v->m_size - 1)
         v->m_size--;
-        return 0;
+    else {
+        memmove(v->m_data + index, v->m_data + index + 1, sizeof(int) * (v->m_size - index - 1));
+        v->m_size--;
     }
-    memmove(v->m_data + index, v->m_data + index + 1, sizeof(int) * (v->m_size - index - 1));
-    v->m_size--;
     return 0;
 }
 
@@ -184,7 +168,7 @@ int vector_min(vector* v) {
     return min;
 }
 
-int vector_m_size(vector *v) {
+int vector_size(vector *v) {
 	if(!validate_vector(v,"vector_m_size: Vector is empty or NULL | maybe not initialized\n")) return -1; 
     return v->m_size;
 }
@@ -199,7 +183,7 @@ void vector_print(vector*v) {
 
 void vector_shuffle(vector* v) {
     if(!validate_vector(v,"vector_shuffle: Vector is empty or NULL | maybe not initialized\n")) return; 
-    srand(time(0));
+    srand((unsigned int)time(0));
     for(int i=0;i<v->m_size;i++) {
         int randNum = rand() % v->m_size;
         int temp = v->m_data[i];
