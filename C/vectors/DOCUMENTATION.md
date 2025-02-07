@@ -187,6 +187,6 @@ int main() {
     ...
     weird stuff
     ...
-    vectortype_destroy(&vector_name);
+    vectortype_destroy(&vector_name); // You should destroy the vector to free the memory block for avoid memory leaks
 }
 ```
