@@ -2,10 +2,10 @@
 	AUTHOR: Semih "zyr1on" Özdemir
  	unordered dynamic array implementation of C
 */
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include<string.h>
+#include <stdio.h>  // fprintf
+#include <stdlib.h> // malloc,realloc,freee
+#include <time.h>   // time,srand,rand
+#include<string.h>  // memset, memcpy, memmove
 
 #define INITIAL_CAP 5
 typedef struct {
@@ -15,7 +15,7 @@ typedef struct {
     int m_initialized;     // m_initialized is a flag that indicates whether the vector has been properly initialized
 } vector;
 
-int compare(const void* a, const void* b) {
+int compare(const void* a, const void* b) { // used for sorting array
    return (*(int*)a - *(int*)b);
 }
 int validate_vector(vector* v, char* _errStr) {
@@ -26,7 +26,7 @@ int validate_vector(vector* v, char* _errStr) {
     return 1;
 }
 
-// initialize vector at the start
+// initialize vector at the start ( allocate memory block or you cant use vector) 
 int vector_init(vector*v) {
     if(v->m_initialized == -1) {
         fprintf(stderr, "vector_init: Vector is already initialized\n");
@@ -47,7 +47,7 @@ int vector_init(vector*v) {
 int vector_push_back(vector* v, int element) {
     if (!validate_vector(v, "vector_push_back: Vector is NULL or not initialized\n")) return -1;
     if (v->m_size == v->m_capacity) {
-        v->m_capacity *= 2; // Kapasiteyi iki katına çıkarıyoruz
+        v->m_capacity *= 2;
         int* temp = (int*)realloc(v->m_data, sizeof(int) * v->m_capacity);
         if (temp == NULL) {
             perror("vector_push_back: Temporary Memory allocation error");
@@ -81,6 +81,7 @@ int vector_push_front(vector* v, int element) {
     return 0;
 }
 
+// linear search
 int vector_IndexAt(vector* v, int element)  {
     if(!validate_vector(v,"vector_IndexAt: Vector is empty or NULL | maybe not initialized\n")) return -1;  
     for(int i=0;i<v->m_size;i++)
@@ -88,6 +89,7 @@ int vector_IndexAt(vector* v, int element)  {
     return -1;
 }
 
+// linear search and memory move
 int vector_delete(vector* v, int element) {
     if(!validate_vector(v,"vector_delete: Vector is empty or NULL | maybe not initialized\n")) return -1;  
     int index = vector_IndexAt(v, element);
@@ -104,6 +106,7 @@ int vector_delete(vector* v, int element) {
     return 0;
 }
 
+// quick sort
 int vector_sort(vector* v) {
     if(!validate_vector(v,"vector_sort: Vector is empty or NULL | maybe not initialized\n")) return -1; 
     qsort(v->m_data,v->m_size,sizeof(int),compare);
@@ -165,11 +168,13 @@ int vector_min(vector* v) {
     return min;
 }
 
+// returns size of vector( vector.size can be used as well)
 int vector_size(vector *v) {
 	if(!validate_vector(v,"vector_m_size: Vector is empty or NULL | maybe not initialized\n")) return -1; 
     return v->m_size;
 }
 
+// prints vector like python
 void vector_print(vector*v) {
     if(!validate_vector(v,"vector_print: Vector is empty or NULL | maybe not initialized\n")) return; 
     printf("[");
@@ -178,6 +183,7 @@ void vector_print(vector*v) {
     return;
 }
 
+// shuffles vector elements by random index
 void vector_shuffle(vector* v) {
     if(!validate_vector(v,"vector_shuffle: Vector is empty or NULL | maybe not initialized\n")) return; 
     srand((unsigned int)time(0));
@@ -188,6 +194,8 @@ void vector_shuffle(vector* v) {
         v->m_data[randNum] = temp;
     }
 }
+
+// reverse vector
 int vector_reverse(vector* v) {
     if(!validate_vector(v,"vector_reverse: Vector is empty or NULL | maybe not initialized\n")) return -1; 
     for(int i=0;i<v->m_size/2;i++) 
@@ -199,6 +207,7 @@ int vector_reverse(vector* v) {
     return 0;
 }
 
+// To avoid memory leaks you must destroy the vector
 int vector_destroy(vector*v) {
     if(!validate_vector(v,"vector_destroy: Vector is NULL | maybe already destroyed or not initialized\n")) return -1;
     free(v->m_data);
@@ -209,11 +218,13 @@ int vector_destroy(vector*v) {
     return 0;
 }
 
+// Replaces all vector elements with the fill_val parameter.
 void vector_fill(vector* v, int fill_val) {
     if(!validate_vector(v,"vector_fill: Vector is empty or NULL | maybe not initialized\n")) return; 
     memset(v->m_data,fill_val,sizeof(int)*v->m_size);
 }
 
+// trims vector between _startIndex and _endIndex and returns vector type. (you should destroy it as well)
 vector vector_trim(vector* v, int _startIndex, int _endIndex) {
     vector temp;
     vector_init(&temp); 
