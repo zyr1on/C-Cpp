@@ -175,3 +175,17 @@ OUTPUT:
 [24,25]
 ```
 </details>
+
+
+<h1> Standart Template</h1>
+```c
+#include "vector.h"
+int main() {
+    vector_type vector_name;
+    vectortype_init(&vector_name);
+    ...
+    weird stuff
+    ...
+    vectortype_destroy(&vector_name);
+}
+```
