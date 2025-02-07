@@ -76,13 +76,10 @@ int vector_push_front(vector* v, int element) {
     }
 
     memmove(v->m_data + 1, v->m_data, sizeof(int) * v->m_size);
-
     v->m_data[0] = element;
     v->m_size++;
-    
     return 0;
 }
-
 
 int vector_IndexAt(vector* v, int element)  {
     if(!validate_vector(v,"vector_IndexAt: Vector is empty or NULL | maybe not initialized\n")) return -1;  
