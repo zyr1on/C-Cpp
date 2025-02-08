@@ -11,7 +11,8 @@
     
     **WARNING:** m_capacity and m_size are not private; 
         modifying them directly may break the vector and cause memory issues.
-
+	> **ERROR:**
+ @todo
 */
 
 #include <stdio.h>  // perror, printf
