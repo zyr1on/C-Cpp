@@ -31,6 +31,11 @@ int main() {
     
     int numSegments = 100; 
     std::vector<float> vertices;
+
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    vertices.push_back(0.0f);
+    
     float radius = 0.07f;
     for (int i = 0; i < numSegments; ++i) {
         float angle = 2.0f * 3.14159265358979f * float(i) / float(numSegments);
@@ -40,9 +45,7 @@ int main() {
         vertices.push_back(y);
         vertices.push_back(0.0f); 
     }
-    vertices.push_back(0.0f);
-    vertices.push_back(0.0f);
-    vertices.push_back(0.0f);
+    
     
     unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
     glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
@@ -94,7 +97,7 @@ int main() {
         if (yPos + radius > 1.0f || yPos - radius < -1.0f)
             speedY *= -1.0f; 
         
-        model = glm::translate(model, glm::vec3(xPos, yPos, 0.0f));
+        model = glm::translate(model, glm::vec3(xPos, yPos, 0.0f)); // idenity matrix
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
         
         glUseProgram(shaderProgram);
