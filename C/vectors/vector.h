@@ -19,7 +19,9 @@
 #include <time.h>   // time,srand,rand
 #include<string.h>  // memset, memcpy, memmove
 
-#define INITIAL_CAP 5 // Initial capacity of the vector at the start
+// Initial capacity of the vector at the start
+#define INITIAL_CAP 5 
+
 typedef struct {
     int* m_data;              // m_data is a pointer that stores the vector's elements (of type int)
     size_t m_size;           // m_size stores the current number of elements in the vector
