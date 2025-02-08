@@ -23,7 +23,7 @@
 #define INITIAL_CAP 5 
 
 typedef struct {
-    int* m_data;              // m_data is a pointer that stores the vector's elements (of type int)
+    int* m_data;              // m_data is a pointer(stack) that stores the vector's elements (heap)
     size_t m_size;           // m_size stores the current number of elements in the vector
     size_t m_capacity;      // m_capacity stores the total capacity of the vector (the allocated memory size)
     int m_initialized;     // m_initialized is a flag that indicates whether the vector has been properly initialized (if -1 -> already initialized)
