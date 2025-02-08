@@ -5,7 +5,7 @@
     **NOTE:** Changed index calculations to pointer arithmetic.
     **NOTE:** Changed memory allocation and copying from malloc to realloc.
     
-    **WARNING:** If performance is critical, Nvector validation can be removed FROM OTHER FUNCTIOS.
+    **WARNING:** If performance is critical, vector validation can be removed FROM OTHER FUNCTIOS.
         -> [DELETE IF NECESSARY] int validate_vector(vector* v, char* _errStr)
         -> [DELETE IF NECESSARY] if (v->m_size == 0)
     
