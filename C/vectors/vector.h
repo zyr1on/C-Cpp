@@ -123,6 +123,13 @@ int* vector_end(vector *v) {
     return v->m_data + v->m_size;
 }
 
+// The vector_at function returns the element at a specified index in a vector,
+int vector_at(vector*v, int index) {
+	if(index >= v->m_size || index < 0)
+			return -1; // out_of_range
+	return v->m_data[index];
+}
+
 // linear search
 int vector_IndexAt(vector* v, int element) {
     if (!validate_vector(v, "vector_IndexAt: Vector is NULL | maybe not initialized\n")) 
@@ -135,14 +142,15 @@ int vector_IndexAt(vector* v, int element) {
     int* end = v->m_data + v->m_size;  
     for (; p < end; ++p)
         if (*p == element) 
-            return p - v->m_data;  // Pointer farkı ile indis hesaplanıyor
+            return p - v->m_data;
     return -1;
 }
 
+// checks if the vector is empty, if(vector_empty()) 
 int vector_empty(vector* v) {
     if(v->m_size == 0)
-        return 1;
-    return 0;
+        return 1; // true
+    return 0; // false
 }
 
 // linear search and memory move
