@@ -1,17 +1,20 @@
-/*
-	AUTHOR: Semih "zyr1on" Özdemir
- 	unordered dynamic array implementation of C
-
-    **NOTE:** Changed index calculations to pointer arithmetic.
-    **NOTE:** Changed memory allocation and copying from malloc to realloc.
+/*!
+    @file vector.h
+    @brief The header of the unordered vector
     
-    **WARNING:** If performance is critical, vector validation can be removed FROM OTHER FUNCTIOS.
+	@author: Semih "zyr1on" Özdemir
+ 	ordered dynamic array implementation of C
+
+    @note: Changed index calculations to pointer arithmetic.
+    @note: Changed memory allocation and copying from malloc to realloc.
+    
+    @warning: If performance is critical, vector validation can be removed FROM OTHER FUNCTIOS.
         -> [DELETE IF NECESSARY] int validate_vector(vector* v, char* _errStr)
         -> [DELETE IF NECESSARY] if (v->m_size == 0)
     
-    **WARNING:** m_capacity and m_size are not private; 
+    @warning: m_capacity and m_size are not private; 
         modifying them directly may break the vector and cause memory issues.
-	
+
 */
 
 #include <stdio.h>  // perror, printf
