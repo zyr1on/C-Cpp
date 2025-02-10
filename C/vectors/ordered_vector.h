@@ -1,6 +1,17 @@
-/*
-	AUTHOR: Semih "zyron" Özdemir
+/*!
+	AUTHOR: Semih "zyr1on" Özdemir
  	ordered dynamic array implementation of C
+
+    @note Changed index calculations to pointer arithmetic.
+    @note Changed memory allocation and copying from malloc to realloc.
+    
+    @warning If performance is critical, vector validation can be removed FROM OTHER FUNCTIOS.
+        -> [DELETE IF NECESSARY] int validate_vector(vector* v, char* _errStr)
+        -> [DELETE IF NECESSARY] if (v->m_size == 0)
+    
+    @warning m_capacity and m_size are not private; 
+        modifying them directly may break the vector and cause memory issues.
+
 */
 #include <stdio.h>
 #include <stdlib.h>
