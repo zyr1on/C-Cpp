@@ -47,12 +47,30 @@ int ovector_IndexAt(ovector* v, int element, int type) {
         else if (v->m_data[mid] > element) right = mid - 1;
         else left = mid + 1;
     }
-    if(type == 0) {
-        fprintf(stderr, "ovector_IndexAt: Element not found.\n");
-        return -1;
-    }
-    else return left;
+    return (type == 0) ? -1 : left;
 }
+
+int ovector_IndexAt_test(ovector* v, int element, int type) {
+    if (!ordered_validate_vector(v, "ovector_IndexAt: Vector is NULL or not m_initialized\n"))
+        return -1;
+
+    int* left = v->m_data;
+    int* right = v->m_data + v->m_size - 1;
+
+    while (left <= right) {
+        int* mid = left + (right - left) / 2;
+
+        if (*mid == element) 
+            return mid - v->m_data;
+        else if (*mid > element) 
+            right = mid - 1;
+        else 
+            left = mid + 1;
+    }
+
+    return (type == 0) ? -1 : left - v->m_data;
+}
+
 
 // int ovector_insert(ovector* v, int element) {
 //     if(!ordered_validate_vector(v,"ovector_insert: Vector is NULL or not m_initialized\n")) return -1;
