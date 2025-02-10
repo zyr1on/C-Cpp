@@ -52,6 +52,13 @@ int ovector_init(ovector*v) {
     return 0;
 }
 
+// The vector_at function returns the element at a specified index in a vector,
+int ovector_at(ovector*v, int index) {
+	if(index >= v->m_size || index < 0)
+			return -1; // out_of_range
+	return v->m_data[index];
+}
+
 int ovector_IndexAt(ovector* v, int element, int type) {
     if(!ordered_validate_vector(v,"ovector_IndexAt: Vector is NULL or not m_initialized\n")) return -1;
     int left = 0, right = v->m_size - 1;
@@ -84,7 +91,6 @@ int ovector_IndexAt_test(ovector* v, int element, int type) {
 
     return (type == 0) ? -1 : left - v->m_data;
 }
-
 
 // int ovector_insert(ovector* v, int element) {
 //     if(!ordered_validate_vector(v,"ovector_insert: Vector is NULL or not m_initialized\n")) return -1;
