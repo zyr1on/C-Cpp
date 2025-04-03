@@ -32,11 +32,6 @@ int main() {
     int numSegments = 100; 
     std::vector<float> vertices;
 
-    // center of circle
-    vertices.push_back(0.0f);
-    vertices.push_back(0.0f);
-    vertices.push_back(0.0f);
-    
     float radius = 0.07f;
     for (int i = 0; i < numSegments; ++i) {
         float angle = 2.0f * 3.14159265358979f * float(i) / float(numSegments);
@@ -84,14 +79,14 @@ int main() {
     float yPos = 0.1f; 
     float speedX = -0.01f;
     float speedY = 0.01f;
-    
+
+    glUseProgram(shaderProgram);
+    glBindVertexArray(VAO);
     glfwSwapInterval(1);
     while (!glfwWindowShouldClose(window)) {
         glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT);
-        
-        glm::mat4 model = glm::mat4(1.0f); // I
-        
+
         xPos += speedX;
         yPos += speedY;
         if (xPos + radius > 1.0f || xPos - radius < -1.0f)
@@ -99,11 +94,9 @@ int main() {
         if (yPos + radius > 1.0f || yPos - radius < -1.0f)
             speedY *= -1.0f; 
         
-        model = glm::translate(model, glm::vec3(xPos, yPos, 0.0f)); // idenity matrix
+        glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(xPos, yPos, 0.0f)); // idenity matrix
         glUniformMatrix4fv(modelLoc, 1, GL_FALSE, &model[0][0]);
         
-        glUseProgram(shaderProgram);
-        glBindVertexArray(VAO);
         glDrawArrays(GL_TRIANGLE_FAN, 0, vertices.size() / 3);
         
         glfwSwapBuffers(window);
@@ -115,4 +108,3 @@ int main() {
     
     return 0;
 }
-// total 92 lines
