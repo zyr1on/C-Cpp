@@ -219,7 +219,6 @@
     _result; \
 })
 
-
 #define vector_find_index(vec, value) ({ \
     size_t _result = SIZE_MAX; \
     if ((vec).magic == VECTOR_MAGIC_INIT) { \
@@ -235,32 +234,6 @@
     } \
     _result; \
 })
-
-// #define vector_find(vec, value, result_index) do { \
-//     *(result_index) = SIZE_MAX; \
-//     if ((vec).magic != VECTOR_MAGIC_INIT) { \
-//         fprintf(stderr, "[x] vector_find: Vector not initialized before vector_find at %s:%d\n", __FILE__, __LINE__); \
-//         break; \
-//     } \
-//     size_t i = 0; \
-//     size_t size = (vec).size; \
-//     /* Unroll loop by 4 for better performance */ \
-//     for (; i + 3 < size; i += 4) { \
-//         if ((vec).data[i] == (value)) { *(result_index) = i; break; } \
-//         if ((vec).data[i+1] == (value)) { *(result_index) = i+1; break; } \
-//         if ((vec).data[i+2] == (value)) { *(result_index) = i+2; break; } \
-//         if ((vec).data[i+3] == (value)) { *(result_index) = i+3; break; } \
-//     } \
-//     /* Handle remaining elements */ \
-//     if (*(result_index) == SIZE_MAX) { \
-//         for (; i < size; ++i) { \
-//             if ((vec).data[i] == (value)) { \
-//                 *(result_index) = i; \
-//                 break; \
-//             } \
-//         } \
-//     } \
-// } while(0)
 
 #define vector_find(vec, value) ({ \
     size_t _result = SIZE_MAX; \
@@ -288,7 +261,6 @@
     } \
     _result; \
 })
-
 
 
 #endif
