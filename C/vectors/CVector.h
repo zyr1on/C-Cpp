@@ -59,6 +59,8 @@
     (vec).data[(vec).size++] = (value); \
 } while(0)
 
+
+
 // Fast element access with bounds checking in debug mode
 #ifdef DEBUG
 #define vector_at(vec, index) \
@@ -197,17 +199,13 @@
     } \
 } while(0)
 
-// Iterator macros for better performance
 #define vector_foreach(vec, item) \
     for (typeof(*(vec).data) *item = (vec).data; \
          item < (vec).data + (vec).size; \
          ++item)
 
-#define vector_foreach_index(vec, index) \
-    for (size_t index = 0; index < (vec).size; ++index)
-
 #define vector_find_custom(vec, value, compare_func) ({ \
-    size_t _result = SIZE_MAX; \
+    int _result = 0; \
     if ((vec).magic == VECTOR_MAGIC_INIT) { \
         for (size_t i = 0; i < (vec).size; ++i) { \
             if (compare_func((vec).data[i], (value))) { \
@@ -220,7 +218,7 @@
 })
 
 #define vector_find_index(vec, value) ({ \
-    size_t _result = SIZE_MAX; \
+    int _result = 0; \
     if ((vec).magic == VECTOR_MAGIC_INIT) { \
         for (size_t i = 0; i < (vec).size; ++i) { \
             if ((vec).data[i] == (value)) { \
@@ -229,28 +227,25 @@
             } \
         } \
     } \
-    else { \
+    else \
         fprintf(stderr, "[x] Error: Vector not initialized before 'vector_find_index' at %s:%d\n", __FILE__, __LINE__); \
-    } \
     _result; \
 })
 
 #define vector_find(vec, value) ({ \
-    size_t _result = SIZE_MAX; \
-    if ((vec).magic != VECTOR_MAGIC_INIT) { \
+    size_t _result = 0; \
+    if ((vec).magic != VECTOR_MAGIC_INIT) \
         fprintf(stderr, "[x] Error: Vector not initialized before 'vector_find' at %s:%d\n", __FILE__, __LINE__); \
-    } else { \
+    else { \
         size_t i = 0; \
         size_t size = (vec).size; \
-        /* Unroll loop by 4 for better performance */ \
         for (; i + 3 < size; i += 4) { \
             if ((vec).data[i] == (value)) { _result = i; break; } \
             if ((vec).data[i+1] == (value)) { _result = i+1; break; } \
             if ((vec).data[i+2] == (value)) { _result = i+2; break; } \
             if ((vec).data[i+3] == (value)) { _result = i+3; break; } \
         } \
-        /* Handle remaining elements */ \
-        if (_result == SIZE_MAX) { \
+        if (_result == 0) { \
             for (; i < size; ++i) { \
                 if ((vec).data[i] == (value)) { \
                     _result = i; \
@@ -262,5 +257,67 @@
     _result; \
 })
 
+
+static inline int vector_push_back_args_inline(void *vec_ptr, size_t element_size, 
+                                               const void *elements, size_t count) {
+    struct { void *data; size_t size; size_t capacity; uint32_t magic; } *vec = vec_ptr;
+    if (__builtin_expect(vec->magic != VECTOR_MAGIC_INIT, 0))
+        return -1; // Error
+    size_t new_size = vec->size + count;
+    if (__builtin_expect(new_size > vec->capacity, 0)) {
+        size_t new_capacity = vec->capacity;
+        if (__builtin_expect(new_capacity == 0, 0))
+            new_capacity = count > 4 ? count : 4;
+        else
+            while (new_capacity < new_size)
+                new_capacity = new_capacity * 2;
+        void *new_data = realloc(vec->data, new_capacity * element_size);
+        if (__builtin_expect(new_data != NULL, 1)) {
+            vec->data = new_data;
+            vec->capacity = new_capacity;
+        } 
+        else return -1; // Error
+    }
+    memcpy((char*)vec->data + vec->size * element_size, elements, count * element_size);
+    vec->size = new_size;
+    return 0;
+}
+
+
+#define vector_push_back_args(vec, ...) do { \
+    typeof(*(vec).data) tmp[] = {__VA_ARGS__}; \
+    if (vector_push_back_args_inline(&(vec), sizeof(*(vec).data), tmp, \
+                                     sizeof(tmp) / sizeof(tmp[0])) != 0) { \
+        fprintf(stderr, "[x] Error: vector_push_back_args failed at %s:%d\n", __FILE__, __LINE__); \
+    } \
+} while(0)
+
+/*!
+    
+@note: OLD VERSION WITHOUT inline
+#define vector_push_back_args(vec, ...) do { \
+    if (__builtin_expect((vec).magic != VECTOR_MAGIC_INIT, 0)) { \
+        fprintf(stderr, "[x] Error: Vector not initialized before: 'vector_push_back' at %s:%d\n", __FILE__, __LINE__); \
+        break; \
+    } \
+    if (__builtin_expect((vec).size >= (vec).capacity, 0)) { \
+        size_t new_capacity = VECTOR_GROW_CAPACITY((vec).capacity); \
+        typeof((vec).data) new_data = realloc((vec).data, new_capacity * sizeof(*(vec).data)); \
+        if (__builtin_expect(new_data != NULL, 1)) { \
+            (vec).data = new_data; \
+            (vec).capacity = new_capacity; \
+        } else { \
+            fprintf(stderr, "[x] Error: Memory allocation failed: 'vector_push_back': at %s:%d\n", __FILE__, __LINE__); \
+            break; \
+        } \
+    } \
+    typeof(*(vec).data) tmp[] = {__VA_ARGS__}; \
+    size_t count = sizeof(tmp) / sizeof(tmp[0]); \
+    for (size_t i = 0; i < count; ++i) { \
+        vector_push_back(vec, tmp[i]); \
+    } \
+} while(0)
+
+*/
 
 #endif
