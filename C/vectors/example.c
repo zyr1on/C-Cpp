@@ -6,7 +6,7 @@ typedef struct {
     float z;
 }vec3;
 
-int main(int argc, char const *argv[])
+int main(void)
 {
     vector(vec3) container;
     vector_init(container);
