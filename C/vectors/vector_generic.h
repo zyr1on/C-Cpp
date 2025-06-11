@@ -105,7 +105,7 @@
         break; \
     } \
     if ((vec).magic != VECTOR_MAGIC_INIT) { \
-        fprintf(stderr, "[x] Error: Cannot 'vector_destroy' uninitialized vector at %s:%d\n", __FILE__, __LINE__); \
+        fprintf(stderr, "[x] Error: Cannot 'vector_destroy' uninitialized vector_destroy at %s:%d\n", __FILE__, __LINE__); \
         break; \
     } \
     if ((vec).data) { \
